@@ -143,3 +143,84 @@
 .btn:active {
   transform: translateY(0);
 }
+
+
+/* RESPONSIVE BREAKPOINTS */
+/* ==================================== */
+
+/* Tablets / Small Laptops */
+@media (max-width: 1024px) {
+  .welcome-title {
+    font-size: 34px;
+  }
+
+  .container {
+    width: 350px;
+    padding: 35px 30px;
+  }
+}
+
+/* Large Phones / Portrait Tablets */
+@media (max-width: 768px) {
+  .welcome-title {
+    font-size: 30px;
+  }
+
+  .welcome-tagline {
+    font-size: 18px;
+  }
+
+  .container {
+    width: 90%;
+    max-width: 340px;
+    padding: 30px 25px;
+  }
+
+  .heading {
+    font-size: 24px;
+  }
+
+  .brand-subtitle {
+    font-size: 16px;
+  }
+
+  .input, .btn {
+    font-size: 16px;
+    padding: 12px 14px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .main {
+    padding: 15px;
+  }
+
+  .welcome-title {
+    font-size: 26px;
+  }
+
+  .welcome-tagline {
+    font-size: 16px;
+  }
+
+  .container {
+    width: 100%;
+    padding: 25px 20px;
+    border-radius: 16px;
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .brand-subtitle {
+    font-size: 15px;
+  }
+
+  .input, .btn {
+    font-size: 15px;
+    padding: 12px;
+  }
+}

@@ -95,3 +95,95 @@
     font-weight: 600;
     cursor: pointer;
 }
+
+
+@media (max-width: 1024px) {
+    .side-bar {
+        width: 200px;
+        padding: 16px;
+    }
+
+    .side-brand h1 {
+        font-size: 24px;
+    }
+
+    .side-nav-item {
+        font-size: 15px;
+        padding: 12px;
+    }
+}
+
+
+/* ========================================================= */
+/* RESPONSIVE BEHAVIOR — MOBILE                               */
+/* 767px and below                                            */
+/* ========================================================= */
+@media (max-width: 767px) {
+
+    /* Turn sidebar into a top bar */
+    .side-bar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 12px 16px;
+        margin: 0;
+        border-radius: 0;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 999;
+
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Brand shrinks */
+    .side-brand h1 {
+        font-size: 22px;
+        margin-bottom: 0;
+    }
+
+    .side-para {
+        display: none; /* Hide tagline on mobile */
+    }
+
+    /* Navigation becomes horizontal & scrollable */
+    .side-nav {
+        margin-top: 0;
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 8px 0;
+        white-space: nowrap;
+    }
+
+    .side-nav-item {
+        margin-bottom: 0;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    /* Bottom buttons move right side */
+    .side-bottom {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .side-dark-toggle,
+    .side-logout {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+}
+
+/* Extra: Add padding-top to main content so it's not hidden behind top bar */
+@media (max-width: 767px) {
+    .main-content,
+    .ws-main,
+    .dashboard-content {
+        padding-top: 70px !important;
+    }
+}

@@ -28,3 +28,44 @@ body {
 * {
   transition: background-color 0.25s ease, color 0.25s ease;
 }
+
+
+@media (max-width: 1024px) {
+  :root {
+    --font-base: 15px;
+    --font-title: 26px;
+    --radius: 10px;
+    --page-padding: 20px;
+  }
+}
+
+/* ---------- MOBILE (≤768px) ---------- */
+@media (max-width: 768px) {
+  :root {
+    --font-base: 14px;
+    --font-title: 24px;
+    --radius: 8px;
+    --page-padding: 16px;
+
+    /* Optional: Slightly lighter card color for better contrast */
+    --card-bg: #fafafa;
+  }
+
+  .dark {
+    --card-bg: #1c2532;
+  }
+}
+
+/* ---------- SMALL MOBILE (≤480px) ---------- */
+@media (max-width: 480px) {
+  :root {
+    --font-base: 13px;
+    --font-title: 22px;
+    --radius: 6px;
+    --page-padding: 12px;
+  }
+
+  .dark {
+    --card-bg: #161e27;
+  }
+}
