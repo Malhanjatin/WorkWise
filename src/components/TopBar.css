@@ -1,0 +1,27 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 32px;
+
+  /* UPDATED for theme */
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+
+  border-radius: 10px;
+}
+
+.welcome-topbar h2 {
+  margin: 0;
+  font-size: 34px;
+
+  /* UPDATED */
+  color: var(--text-primary);
+}
+
+.ws-date {
+  margin-top: 8px;
+
+  /* UPDATED */
+  color: var(--text-secondary);
+}

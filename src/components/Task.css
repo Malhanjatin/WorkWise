@@ -1,0 +1,194 @@
+/* ======================= GLOBAL ======================= */
+body {
+  background: #f6f8fa;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+/* ======================= HEADER ======================= */
+.headingTask {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 28px;
+  font-weight: 600;
+  color: #183153;
+}
+
+/* ======================= ADD TASK ======================= */
+.task-add-row {
+  display: flex;
+  gap: 12px;
+  margin: 30px auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.input-task {
+  width: 38%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #d1d9e0;
+  font-size: 15px;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  transition: border .2s;
+}
+
+.input-task:focus {
+  border-color: #1f6feb;
+  outline: none;
+}
+
+.priority-select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d9e0;
+  font-size: 14px;
+  background: white;
+}
+
+.btn-task-add {
+  padding: 10px 16px;
+  background: #1f6feb;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(31,111,235,.25);
+  transition: background .2s;
+}
+
+.btn-task-add:hover {
+  background: #1559d7;
+}
+
+/* ======================= TABLE HEADER ======================= */
+.task-header {
+  display: grid;
+  place-items: center;
+  grid-template-columns: 10% 15% 50% 25%;
+  padding: 14px 10px;
+  border-bottom: 2px solid #e3e6eb;
+  font-weight: 600;
+  margin: 0 35px;
+  margin-top: 30px;
+  font-size: 18px;
+  color: #183153;
+}
+
+/* ======================= LIST ======================= */
+.task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* TASK ROW CARD --------------------- */
+.task-row {
+  display: grid;
+  grid-template-columns: 10% 15% 50% 25%;
+  place-items: center;
+  
+  background: white;
+  margin: 10px 30px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  border: 1px solid #d8dee5;
+  box-shadow: 0 2px 6px rgba(0,0,0,.04);
+  transition: transform .15s;
+}
+
+.task-row:hover {
+  transform: translateY(-2px);
+}
+
+/* ======================= COLUMNS ======================= */
+.col-status {
+  display: flex;
+  justify-content: center;
+
+}
+
+
+.col-status input {
+  width: 22px;
+  height: 22px;
+}
+
+.col-priority {
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.col-priority.high {
+  background: #e63946;
+}
+.col-priority.medium {
+  background: #3164d4;
+}
+.col-priority.low {
+  background: #2aa65a;
+}
+
+.col-text {
+  font-size: 16px;
+  color: #183153;
+  
+  padding-left: 20px;
+
+}
+
+.completed {
+  text-decoration: line-through;
+  color: #9aa3b2;
+}
+
+.col-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ======================= ACTION BUTTONS ======================= */
+.btn-task-edit,
+.btn-task-delete {
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  color: white;
+  
+}
+
+.btn-task-edit {
+  background: #1d8bd1;
+  margin-right: 10px;
+}
+
+.btn-task-edit:hover {
+  background: #156ea4;
+ 
+}
+
+.btn-task-delete {
+  background: #d64545;
+   margin-right: 50px;
+}
+
+.btn-task-delete:hover {
+  background: #b93838;
+}
+
+.ws-task-card-container {
+    margin-top: 30px;
+    background-color: #ffffff; /* Example background for the card */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

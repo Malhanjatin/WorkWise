@@ -1,0 +1,75 @@
+/* Dashboard layout */
+.ws-dashboard {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  /* ADDED → page background should follow theme */
+  background: var(--page-bg);
+}
+
+/* Main content */
+.ws-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+/* Thought card */
+.ws-thought {
+  /* CHANGED → use theme card background */
+  background: var(--card-bg);
+
+  padding: 30px;
+  border-radius: 16px;
+
+  /* CHANGED → dynamic shadow */
+  box-shadow: 0 4px 14px var(--card-shadow);
+
+  margin-top: 25px;
+}
+
+/* Title */
+.ws-thought-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+
+  /* CHANGED */
+  color: var(--text-muted);
+
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+/* Quote text */
+.ws-thought-quote {
+  font-size: 20px;
+  font-weight: 500;
+
+  /* CHANGED */
+  color: var(--text-primary);
+
+  font-style: italic;
+  margin-bottom: 5px;
+}
+
+/* Author */
+.ws-thought-author {
+  font-size: 16px;
+
+  /* CHANGED */
+  color: var(--text-secondary);
+}
+
+/* Centered content wrapper */
+.ws-content {
+  margin-top: 20px;
+  text-align: center;
+
+  /* CHANGED */
+  color: var(--text-primary);
+}

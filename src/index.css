@@ -1,0 +1,30 @@
+
+/* Default Light Theme */
+:root {
+  --page-bg: #ffffff;
+  --page-text: #111111;
+  --card-bg: #f3f3f3;
+  --border-color: #d0d0d0;
+}
+
+/* Dark Theme */
+.dark {
+  --page-bg: #111827;
+  --page-text: #f8fafc;
+  --card-bg: #1f2937;
+  --border-color: #334155;
+}
+
+/* Apply to the entire page */
+body {
+  background-color: var(--page-bg);
+  color: var(--page-text);
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+/* Optional smooth transitions */
+* {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}

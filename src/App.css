@@ -1,0 +1,40 @@
+/* ===========================
+   LIGHT THEME VARIABLES
+=========================== */
+:root {
+  --bg: #f3f4f6;
+  --text: #0f172a;
+  --text-muted: #64748b;
+
+  --surface: #ffffff;
+  --surface-2: #eef0f3;
+  --border: #e2e8f0;
+
+  --sidebar-bg: linear-gradient(180deg, #7433ff, #5900d8);
+  --sidebar-text: #ffffff;
+
+  --accent: #7433ff;
+  --accent-hover: #5a20d1;
+
+  --danger: #ef4444;
+}
+/* ===========================
+   DARK THEME VARIABLES
+=========================== */
+.dark {
+  --bg: #0d0d0d;
+  --text: #f8fafc;
+  --text-muted: #b0b0b0;
+
+  --surface: #1a1a1a;
+  --surface-2: #232323;
+  --border: #333333;
+
+  --sidebar-bg: #131313; /* dark sidebar */
+  --sidebar-text: #f3f3f3;
+
+  --accent: #8b5cf6;
+  --accent-hover: #7c3aed;
+
+  --danger: #dc2626;
+}
