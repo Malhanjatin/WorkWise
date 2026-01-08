@@ -8,7 +8,7 @@ import { isValidEmail,isValidPassword } from '../utilis/validation';
  const Signup = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [confirmPass, setConfirmPass] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const {signup} = useAuth();
     const navigate = useNavigate()
@@ -18,10 +18,10 @@ import { isValidEmail,isValidPassword } from '../utilis/validation';
 
         if(name==="email") setEmail(value);
         if(name==='password') setPassword(value);
-        if(name==='confirmPass') setConfirmPass(value)
+        if(name==='confirmPassword') setConfirmPassword(value)
     }
 
-    const handleSubmit=(e)=>{
+    const handleSubmit = async(e)=>  {
         e.preventDefault();
         
         if(!isValidEmail(email)){
@@ -36,12 +36,12 @@ import { isValidEmail,isValidPassword } from '../utilis/validation';
             return
         }
 
-        if(password!== confirmPass){
+        if(password!== confirmPassword){
             toast.error("Passwords dont match");
             return;
         }
 
-        const success = signup(email,password)
+        const success =  await signup(email,password, confirmPassword)
         if(success){
            toast.success('Account created successfully')
             navigate('/') // Navigate to login after successful signup
@@ -86,8 +86,8 @@ import { isValidEmail,isValidPassword } from '../utilis/validation';
                 className='input'
                 placeholder='Confirm Password'
                 type='password'
-                value={confirmPass}
-                name='confirmPass'
+                value={confirmPassword}
+                name='confirmPassword'
                 onChange={handleChange}
                 required
             />

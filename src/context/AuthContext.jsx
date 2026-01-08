@@ -2,88 +2,215 @@ import { createContext, useState, useContext, useEffect } from "react";
 
 export const AuthContext = createContext();
 
-const getFromLocalStorage =(key,defaultValue)=>{
-  const saved =localStorage.getItem(key);
-  try{
-    return saved ? JSON.parse(saved) :defaultValue;
+const getFromLocalStorage = (key, defaultValue) => {
+  if (typeof window === "undefined") return defaultValue;
+  const saved = localStorage.getItem(key);
+  try {
+    return saved ? JSON.parse(saved) : defaultValue;
+  } catch (e) {
+    console.error(`Error parsing ${key} from localStorage:`, e);
+    return defaultValue;
   }
-  catch(e){
-    console.error(`Error parsing ${key} from localStorage:`,e)
-    return  defaultValue;
-  }
-
-}
-
-
+};
 
 export const AuthProvider = ({ children }) => {
-  const [users, setUsers] = useState(()=> getFromLocalStorage('users',[]))
+  const [users, setUsers] = useState(() =>
+    getFromLocalStorage("users", [])
+  );
+  const [user, setUser] = useState(() =>
+    getFromLocalStorage("user", null)
+  );
+  const [lastLogged, setLastLogged] = useState(() =>
+    getFromLocalStorage("lastloggeduser", null)
+  );
 
-  const [user, setUser] = useState(() => getFromLocalStorage('user', null));
-  const [lastLogged , setLastLogged] = useState(()=>getFromLocalStorage('lastloggeduser', null))
+  // ---------------- SYNC LOCAL STORAGE ----------------
+  useEffect(() => {
+    localStorage.setItem("users", JSON.stringify(users));
+  }, [users]);
 
+  useEffect(() => {
+    if (user) localStorage.setItem("user", JSON.stringify(user));
+    else localStorage.removeItem("user");
+  }, [user]);
 
-  useEffect(()=>{
-localStorage.setItem('users', JSON.stringify(users))
-  },[users])
+  // ---------------- HELPERS ----------------
+  const getAccessToken = () => localStorage.getItem("accessToken");
 
-
-
-
-  const signup = (email, password) => {
-    const exists = users.find((u) => u.email === email);
-    if (exists) return false;
-
-    const newUser = { email, password };
-
-    setUsers((prevUsers) => [...prevUsers, newUser]);
-
-    // Set the new user as the currently logged-in user
-    setUser(newUser);
-    localStorage.setItem('user', JSON.stringify(newUser));
-    setLastLogged(null);
-    localStorage.removeItem('lastloggeduser');
-    return true;
-  };
-
-  const login = (email, password) => {
-    // Fixed: Now actually checks against stored users
-    const found = users.find((u) => u.email === email && u.password === password);
-    
-   if (!found) return false;
-
-    // Set the user in state and save the single user object to 'user' key
-    setUser(found);
-    localStorage.setItem("user", JSON.stringify(found));
-    
-    // Clear last credentials on successful login
-    setLastLogged(null);
-    localStorage.removeItem('lastloggeduser');
-
-    return true;
-  };
-
-  const logOut = () => {
-   if (user) {
-        // Find the full user object (with password) from the 'users' list
-        const credentialsToRemember = users.find(u => u.email === user.email);
-        
-        if (credentialsToRemember) {
-
-          const emailOnly = {email:credentialsToRemember.email,password : ""}
-            setLastLogged(emailOnly)
-            // Save the full credentials to local storage (as requested)
-            localStorage.setItem('lastloggeduser', JSON.stringify(emailOnly))
+  // ---------------- SIGNUP ----------------
+  const signup = async (email, password, confirmPassword) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password, confirmPassword }),
         }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) return { success: true };
+
+      return {
+        success: false,
+        message:
+          data.message ||
+          (data.errors && data.errors[0].msg) ||
+          "Signup failed",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Server connection failed",
+        error: error.message,
+      };
     }
-    
-    // Perform the actual logout
-    setUser(null);
-    localStorage.removeItem("user");
   };
+
+  // ---------------- LOGIN ----------------
+  const login = async (email, password) => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // refresh token cookie
+          body: JSON.stringify({ email, password }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUser(data.user);
+        localStorage.setItem("accessToken", data.accessToken);
+        setLastLogged(null);
+        localStorage.removeItem("lastloggeduser");
+        return { success: true };
+      }
+
+      return {
+        success: false,
+        message:
+          data.message ||
+          (data.errors && data.errors[0].msg) ||
+          "Login failed",
+      };
+    } catch (error) {
+      return {
+        success: false,
+        message: "Server connection failed",
+        error: error.message,
+      };
+    }
+  };
+
+  // ---------------- LOGOUT ----------------
+  const logOut = async () => {
+    if (user) {
+      const emailOnly = { email: user.email, password: "" };
+      setLastLogged(emailOnly);
+      localStorage.setItem(
+        "lastloggeduser",
+        JSON.stringify(emailOnly)
+      );
+    }
+
+    try {
+      await fetch("http://localhost:3001/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+
+    setUser(null);
+    localStorage.removeItem("accessToken");
+  };
+
+  // ---------------- REFRESH TOKEN ----------------
+  const refreshAccessToken = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/auth/refresh-token",
+        {
+          method: "POST",
+          credentials: "include",
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("accessToken", data.accessToken);
+        return data.accessToken;
+      } else {
+        await logOut();
+        return null;
+      }
+    } catch (error) {
+      console.error("Refresh token error:", error);
+      await logOut();
+      return null;
+    }
+  };
+
+  // ---------------- AUTH FETCH (CORE) ----------------
+  const authFetch = async (url, options = {}) => {
+    let token = getAccessToken();
+
+    let response = await fetch(url, {
+      ...options,
+      headers: {
+        ...(options.headers || {}),
+        Authorization: `Bearer ${token}`,
+      },
+      credentials: "include",
+    });
+
+    // If access token expired
+    if (response.status === 401) {
+      const newToken = await refreshAccessToken();
+      if (!newToken) return null;
+
+      response = await fetch(url, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          Authorization: `Bearer ${newToken}`,
+        },
+        credentials: "include",
+      });
+    }
+
+    return response;
+  };
+
+  // ---------------- AUTO REFRESH ON LOAD ----------------
+  useEffect(() => {
+    if (user && !getAccessToken()) {
+      refreshAccessToken();
+    }
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logOut, signup ,lastLogged,users,setUsers}}>
+    <AuthContext.Provider
+      value={{
+        user,
+        login,
+        logOut,
+        signup,
+        lastLogged,
+        users,
+        setUsers,
+        refreshAccessToken,
+        authFetch,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -19,6 +19,7 @@ createRoot(document.getElementById('root')).render(
     <ToastContainer
     position="top-center"
 autoClose={1000}
+marginTop="100px"
 hideProgressBar={false}
 newestOnTop={false}
 closeOnClick={false}

@@ -22,14 +22,15 @@ const navigate= useNavigate();
     if (name === "password") setPassword(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
-    const success = login(email, password);
-     if(success){
+    const result =  await login(email, password);
+     if(result.success){
+      toast.success('Login successful')
         navigate('/dashBoard')
      }
     else{
-        toast.error('Invalid email or password')
+        toast.error( result.message || 'Invalid email or password')
     }
   };
 
