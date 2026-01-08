@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "../components/task.css";
 import SideBar from "./SideBar";
 
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://workwisebackend.onrender.com";
 
 const Task = () => {
   const [task, setTask] = useState("");

@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password, confirmPassword) => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/auth/signup",
+        "https://workwisebackend.onrender.com/api/auth/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -120,7 +120,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      await fetch("http://localhost:3001/api/auth/logout", {
+      await fetch("https://workwisebackend.onrender.com/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   const refreshAccessToken = async () => {
     try {
       const response = await fetch(
-        "http://localhost:3001/api/auth/refresh-token",
+        "https://workwisebackend.onrender.com/api/auth/refresh-token",
         {
           method: "POST",
           credentials: "include",

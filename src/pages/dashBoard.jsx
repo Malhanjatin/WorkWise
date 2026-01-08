@@ -47,7 +47,7 @@ const DashBoard = () => {
     const initializeDashboard = async () => {
       try {
         const [authRes, quoteRes] = await Promise.all([
-          authFetch("http://localhost:3001/api/auth/dashboard"),
+          authFetch("https://workwisebackend.onrender.com/api/auth/dashboard"),
           fetch("https://zenquotes.io/api/quotes").catch(() => null),
         ]);
 
