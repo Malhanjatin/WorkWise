@@ -192,12 +192,30 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
-  // ---------------- AUTO REFRESH ON LOAD ----------------
+   // ✅ CRITICAL: Call verifySession on app load
   useEffect(() => {
-    if (user && !getAccessToken()) {
-      refreshAccessToken();
-    }
-  }, []);
+    const checkAuth = async () => {
+      const token = getAccessToken();
+      const storedUser = getFromLocalStorage("user", null);
+
+      console.log("🔍 Checking stored credentials...");
+      console.log("📦 Stored user:", storedUser);
+      console.log("🔑 Access token exists:", !!token);
+
+      // If both exist, assume user is logged in
+      // The Dashboard will verify the actual token validity
+      if (storedUser && token) {
+        console.log("✅ Credentials found, restoring session");
+        setUser(storedUser);
+      } else {
+        console.log("❌ No stored credentials");
+      }
+
+      setIsAuthChecking(false);
+    };
+
+    checkAuth();
+  }, []); // Run once when app mounts
 
   return (
     <AuthContext.Provider
@@ -212,6 +230,7 @@ export const AuthProvider = ({ children }) => {
         refreshAccessToken,
         authFetch,
         isAuthChecking
+       
       }}
     >
       {children}

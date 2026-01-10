@@ -100,6 +100,7 @@ const DashBoard = () => {
     initializeDashboard();
   }, [authFetch, logOut, navigate, setUser, user]);
 
+
   const handleClick = async () => {
     await logOut();
     toast.success("Logout successful!");
