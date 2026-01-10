@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
   const [lastLogged, setLastLogged] = useState(() =>
     getFromLocalStorage("lastloggeduser", null)
   );
+    const [isAuthChecking, setIsAuthChecking] = useState(true); 
 
   // ---------------- SYNC LOCAL STORAGE ----------------
   useEffect(() => {
@@ -210,6 +211,7 @@ export const AuthProvider = ({ children }) => {
         setUsers,
         refreshAccessToken,
         authFetch,
+        isAuthChecking
       }}
     >
       {children}

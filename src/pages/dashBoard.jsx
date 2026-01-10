@@ -17,7 +17,8 @@ const FALLBACK_QUOTES = [
     author: "Tim Ferriss",
   },
   {
-    content: "Discipline is choosing between what you want now and what you want most.",
+    content:
+      "Discipline is choosing between what you want now and what you want most.",
     author: "Abraham Lincoln",
   },
   {
@@ -34,16 +35,23 @@ const getRandomFallbackQuote = () => {
   return FALLBACK_QUOTES[index];
 };
 
-
-
 const DashBoard = () => {
-  const { user, logOut, authFetch, setUser } = useAuth();
+  const { user, logOut, authFetch, setUser ,   isAuthChecking} = useAuth();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(true);
   const [quote, setQuote] = useState(null);
 
+
+
+    // ✅ CRITICAL: Wait for auth verification to complete before doing anything
+ 
+    // If still checking authentication, don't do anything yet
+    
+   
+
   useEffect(() => {
+    
     const initializeDashboard = async () => {
       try {
         const [authRes, quoteRes] = await Promise.all([
@@ -63,24 +71,23 @@ const DashBoard = () => {
           setUser(authData.user);
         }
 
-       if (quoteRes) {
-  try {
-    const quoteData = await quoteRes.json();
-    if (quoteData?.length > 0) {
-      setQuote({
-        content: quoteData[0].q,
-        author: quoteData[0].a,
-      });
-    } else {
-      setQuote(getRandomFallbackQuote());
-    }
-  } catch {
-    setQuote(getRandomFallbackQuote());
-  }
-} else {
-  setQuote(getRandomFallbackQuote());
-}
-               
+        if (quoteRes) {
+          try {
+            const quoteData = await quoteRes.json();
+            if (quoteData?.length > 0) {
+              setQuote({
+                content: quoteData[0].q,
+                author: quoteData[0].a,
+              });
+            } else {
+              setQuote(getRandomFallbackQuote());
+            }
+          } catch {
+            setQuote(getRandomFallbackQuote());
+          }
+        } else {
+          setQuote(getRandomFallbackQuote());
+        }
       } catch (error) {
         console.error("Dashboard fetch error:", error);
         logOut();
@@ -95,14 +102,56 @@ const DashBoard = () => {
 
   const handleClick = async () => {
     await logOut();
-      toast.success("Logout successful!");
+    toast.success("Logout successful!");
     navigate("/");
   };
 
+
+
+ if (isAuthChecking) {
+    return (
+      <div className="ws-auth-loading">
+        <div className="ws-auth-loading-content">
+          <div className="ws-auth-loading-icon">🔐</div>
+          <p className="ws-auth-loading-text">
+            Verifying authentication...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ If not authenticated (and not checking), don't render dashboard
+  // The useEffect will handle redirect
+  if (!user) {
+    return null;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
+
     <div className="ws-dashboard">
       <SideBar onLogout={handleClick} />
-
+   
       <div className="ws-main">
         <TopBar userEmail={user?.email} />
 
@@ -116,9 +165,7 @@ const DashBoard = () => {
               <blockquote className="ws-thought-quote">
                 "{quote?.content}"
               </blockquote>
-              <div className="ws-thought-author">
-                — {quote?.author}
-              </div>
+              <div className="ws-thought-author">— {quote?.author}</div>
             </>
           )}
         </div>

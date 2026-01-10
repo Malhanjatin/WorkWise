@@ -151,3 +151,54 @@
   /* CHANGED */
   color: var(--text-primary);
 }
+/* ================= AUTH LOADING SCREEN ================= */
+
+.ws-auth-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.ws-auth-loading-content {
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.ws-auth-loading-icon {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.ws-auth-loading-text {
+  font-size: 1.2rem;
+  color: white;
+  opacity: 0.9;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
