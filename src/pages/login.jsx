@@ -26,9 +26,13 @@ const navigate= useNavigate();
     e.preventDefault();
     const result =  await login(email, password);
      if(result.success){
+      if( result.user &&result.user.role==="admin"){
+         toast.success('Login successful Welcome Admin')
+         navigate('/admin-dashBoard');
+      }else{
       toast.success('Login successful')
         navigate('/dashBoard')
-     }
+     }}
     else{
         toast.error( result.message || 'Invalid email or password')
     }

@@ -48,14 +48,20 @@ const DashBoard = () => {
  
     // If still checking authentication, don't do anything yet
     
-   
+     useEffect(() => {
+    if (!isAuthChecking && !user) {
+      navigate("/");
+    }
+  }, [user, isAuthChecking, navigate]);
 
   useEffect(() => {
     
     const initializeDashboard = async () => {
       try {
         const [authRes, quoteRes] = await Promise.all([
-          authFetch("https://workwisebackend.onrender.com/api/auth/dashboard"),
+          authFetch(
+             "https://workwisebackend.onrender.com/api/auth/dashboard"
+          ),
           fetch("https://zenquotes.io/api/quotes").catch(() => null),
         ]);
 
@@ -127,27 +133,6 @@ const DashBoard = () => {
   if (!user) {
     return null;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   return (
 
     <div className="ws-dashboard">

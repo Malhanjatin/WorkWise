@@ -6,11 +6,19 @@ import { useAuth } from './context/AuthContext'
 import Signup from './pages/signup'
 import Task from './components/Task'
 import ResetPassword from './pages/ResetPassword'
+import AdminDashboard from './pages/adminDashboard'
 
 function App() {
+   const {user} = useAuth();
  const PrivateRoute= ({children})=>{
-  const {user} = useAuth();
+ 
   return user ? children :<Navigate to='/'/>;
+ }
+ const AdminRoute = ({children})=>{
+if(!user || user.role !=="admin"){
+  return <Navigate to="/dashBoard" />;
+}
+return children; // if they are admin go them to their children which down here handle admin dashboard
  }
   return (
     <>
@@ -25,7 +33,13 @@ function App() {
       
         </PrivateRoute>
         } />
+<Route path='/admin-dashBoard'  element={
+  <AdminRoute>
+<AdminDashboard />
+  </AdminRoute>
+}
 
+/>
       
         </Routes> 
     </>

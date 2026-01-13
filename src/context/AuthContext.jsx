@@ -42,7 +42,8 @@ export const AuthProvider = ({ children }) => {
   const signup = async (email, password, confirmPassword) => {
     try {
       const response = await fetch(
-        "https://workwisebackend.onrender.com/api/auth/signup",
+         "https://workwisebackend.onrender.com/api/auth/signup",
+      
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,7 +76,8 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     try {
       const response = await fetch(
-        "https://workwisebackend.onrender.com/api/auth/login",
+         "https://workwisebackend.onrender.com/api/auth/login",
+      
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -91,7 +93,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("accessToken", data.accessToken);
         setLastLogged(null);
         localStorage.removeItem("lastloggeduser");
-        return { success: true };
+        return { success: true, user :data.user };
       }
 
       return {
@@ -122,7 +124,10 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      await fetch("https://workwisebackend.onrender.com/api/auth/logout", {
+       await fetch(
+       "https://workwisebackend.onrender.com/api/auth/logout", 
+     
+      {
         method: "POST",
         credentials: "include",
       });
@@ -138,7 +143,8 @@ export const AuthProvider = ({ children }) => {
   const refreshAccessToken = async () => {
     try {
       const response = await fetch(
-        "https://workwisebackend.onrender.com/api/auth/refresh-token",
+         "https://workwisebackend.onrender.com/api/auth/refresh-token",
+          
         {
           method: "POST",
           credentials: "include",
