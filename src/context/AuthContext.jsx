@@ -17,9 +17,7 @@ export const AuthProvider = ({ children }) => {
   const [users, setUsers] = useState(() =>
     getFromLocalStorage("users", [])
   );
-  const [user, setUser] = useState(() =>
-    getFromLocalStorage("user", null)
-  );
+  const [user, setUser] = useState(null);
   const [lastLogged, setLastLogged] = useState(() =>
     getFromLocalStorage("lastloggeduser", null)
   );
@@ -155,9 +153,15 @@ export const AuthProvider = ({ children }) => {
 
       if (response.ok) {
         localStorage.setItem("accessToken", data.accessToken);
+        if(data.user){
+          setUser(data.user)
+        
+        }
         return data.accessToken;
       } else {
-        await logOut();
+        setUser(null)
+          localStorage.removeItem("accessToken")
+          localStorage.removeItem("user")
         return null;
       }
     } catch (error) {
@@ -201,6 +205,7 @@ export const AuthProvider = ({ children }) => {
    // ✅ CRITICAL: Call verifySession on app load
   useEffect(() => {
     const checkAuth = async () => {
+
       const token = getAccessToken();
       const storedUser = getFromLocalStorage("user", null);
 
@@ -211,12 +216,37 @@ export const AuthProvider = ({ children }) => {
       // If both exist, assume user is logged in
       // The Dashboard will verify the actual token validity
       if (storedUser && token) {
-        console.log("✅ Credentials found, restoring session");
-        setUser(storedUser);
-      } else {
-        console.log("❌ No stored credentials");
-      }
 
+try{
+  const response = await fetch("https://workwisebackend.onrender.com/api/auth/refresh-token",{
+    method:"POST",
+    credentials:"include"
+  })
+  const data = await response.json();
+
+  if(response.ok){
+
+        console.log("✅ Credentials found, restoring session");
+        localStorage.setItem("access token", data.accessToken)
+        setUser(data.user|| storedUser)
+  }
+  else{
+  console.log("❌ No stored credentials");
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user")
+  setUser(null)
+  }
+}
+catch(error){
+  console.error(" session verification failed", error)
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("user")
+  setUser(null)
+}
+      }
+      else{
+        console.log("no stored credentials")
+      }
       setIsAuthChecking(false);
     };
 
